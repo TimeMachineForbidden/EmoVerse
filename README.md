@@ -102,7 +102,7 @@ EmoVerse(表情宇宙)旨在提供一个表情包平台，用户可以自由地�
 
 ## 二、项目模块架构
 
-* emoticons:整个项目的父工程
+* EmoVerse:整个项目的父工程
 * emoji-pojo：普通Java对象模块，包含Entiy、DTO、VO
 * emoji-common：公共模块，包含工具类、常量类、异常类、枚举类等公共类
 * emoji-mapper：数据访问模块，基于MyBatis实现
