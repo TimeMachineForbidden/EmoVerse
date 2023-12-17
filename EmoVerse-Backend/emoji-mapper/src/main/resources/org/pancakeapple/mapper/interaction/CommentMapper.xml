@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.pancakeapple.mapper.interaction.CommentMapper">
+
+    <insert id="comment" useGeneratedKeys="true" keyProperty="id" >
+        insert into tb_comment(emoji_id,content,create_time,create_user,update_time,update_user)
+        values (#{emojiId},#{content},#{createTime},#{createUser},#{updateTime},#{updateUser})
+    </insert>
+    <insert id="reply" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_comment(reply_id,reply_reply_id,emoji_id,content,create_time,create_user,update_time,update_user)
+        values (#{replyId},#{replyReplyId},#{emojiId},#{content},#{createTime},#{createUser},#{updateTime},#{updateUser})
+    </insert>
+    <select id="getComments" resultType="org.pancakeapple.vo.interaction.CommentVO">
+        select tc.id,tc.emoji_id,tc.content,tc.create_time,tc.create_user,tu.profile_photo,tu.username
+        from emoticons.tb_comment tc left outer join tb_user tu
+        on tc.create_user = tu.id
+        where tc.emoji_id=#{emojiId} and reply_id is null and reply_reply_id is null
+        order by tc.create_time desc
+    </select>
+    <select id="getReply" resultType="org.pancakeapple.vo.interaction.ReplyVO">
+        select tc.id,tc.emoji_id,tc.reply_reply_id,tc.content,tc.create_time,tc.create_user,tu.profile_photo,tu.username
+        from tb_comment tc left outer join tb_user tu
+        on tc.create_user=tu.id
+        where tc.reply_id=#{commentId}
+        order by tc.create_time desc
+    </select>
+</mapper>
